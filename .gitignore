@@ -13,3 +13,6 @@ Thumbs.db
 logs/
 tmp/
 
+# IDEs
+*.code-workspace
+.vscode/
