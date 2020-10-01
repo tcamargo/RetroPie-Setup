@@ -382,7 +382,7 @@ function get_platform() {
                 __platform="armv7-mali"
                 ;;
             *)
-                # jetson nano and tegra x1 can be identified via /sys/firmware/devicetree/base/model
+                # jetson nano, tegra x1 and odroidn2/n2+ can be identified via /sys/firmware/devicetree/base/model
                 local model_path="/sys/firmware/devicetree/base/model"
                 if [[ -f "$model_path" ]]; then
                     # ignore end null to avoid bash warning
@@ -393,6 +393,12 @@ function get_platform() {
                             ;;
                         icosa)
                             __platform="tegra-x1"
+                            ;;
+                        "Hardkernel ODROID-N2")
+                            __platform="odroid-n2"
+                            ;;
+                        "Hardkernel ODROID-N2Plus")
+                            __platform="odroid-n2+"
                             ;;
                     esac
                 else
@@ -537,4 +543,13 @@ function platform_vero4k() {
     __default_cpu_flags="-mcpu=cortex-a7 -mfpu=neon-vfpv4"
     __default_cflags="-I/opt/vero3/include -L/opt/vero3/lib"
     __platform_flags+=(arm armv7 neon mali gles)
+}
+
+function platform_odroid-n2() {
+    __default_cpu_flags="-march=armv8-a+crc -mcpu=cortex-a73 -mtune=cortex-a73.cortex-a53 -mfpu=neon-fp-armv8"
+    __platform_flags+=(aarch64 neon mali gles)
+}
+
+function platform_odroid-n2+() {
+    platform_odroid-n2
 }
